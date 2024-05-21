@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Button Rows</title>
+	<style>
+		.row {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 10px;
+		}
+
+		.button {
+			padding: 10px;
+			background-color: #ccc;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="container">
+		<div class="row">
+			<select class="dropdown">
+				<option>Start/End</option>
+				<option>Input/Output</option>
+				<option>Process</option>
+				<option>Decision</option>
+			</select>
+			<input type="text" class="text">Node description</input>
+
+			<input type="text" class="text">Arrow Overhead</input>
+
+			<select class="dropdown">
+				<option>Start/End</option>
+				<option>Input/Output</option>
+				<option>Process</option>
+				<option>Decision</option>
+			</select>
+			<input type="text" class="text">Link Node description</input>
+
+			<button class="button" onclick="addRow()">+</button>
+		</div>
+	</div>
+
+	<script>
+		function addRow() {
+			var container = document.getElementById("container");
+			var newRow = document.createElement("div");
+			newRow.className = "row";
+			newRow.innerHTML = `
+				<select class="dropdown">
+				<option>Start/End</option>
+				<option>Input/Output</option>
+				<option>Process</option>
+				<option>Decision</option>
+			</select>
+			<input type="text" class="text">Node description</input>
+			
+			<input type="text" class="text">Arrow Overhead</input>
+			
+			<select class="dropdown">
+				<option>Start/End</option>
+				<option>Input/Output</option>
+				<option>Process</option>
+				<option>Decision</option>
+			</select>
+			<input type="text" class="text">Link Node description</input>
+			
+				<button class="button" onclick="addRow()">+</button>
+			`;
+			container.appendChild(newRow);
+		}
+	</script>
+</body>
+
+</html>

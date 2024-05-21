@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Generate Diagrams</title>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+			integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdn.rawgit.com/knsv/mermaid/0.5.8/dist/mermaidAPI.js"></script>
+		<style>
+			* {
+				color: #000;
+				background: #fff;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div>
+			<textarea name id="input" cols="30" rows="10">
+sequenceDiagram
+A->> B: Query
+B->> C: Forward query
+Note right of C: Thinking...
+C->> B: Response
+B->> A: Forward response
+		</textarea>
+		</div>
+		<div>
+			Your code (for debugging):
+			<pre id="preview"></pre>
+		</div>
+		<div>
+			<button type="button" id="render">Render</button>
+		</div>
+		<div>Graph:</div>
+		<div id="outputContainer">
+			<div id="output"></div>
+		</div>
+		<script type="module">
+			let counter = 1;
+			mermaidAPI.initialize({ startOnLoad: false });
+
+			var input = document.getElementById("input");
+			var preview = document.getElementById("preview");
+			var output = document.getElementById("output");
+			var renderBtn = document.getElementById("render");
+			var outputContainer = document.getElementById("outputContainer");
+
+			render.onclick = function () {
+				let newId = 'graph' + counter++;
+				
+				preview.innerHTML = input.value;
+
+				const svg = mermaidAPI.render(newId, input.value);
+
+				output.innerHTML = svg;
+			};
+		</script>
+	</body>
+</html>

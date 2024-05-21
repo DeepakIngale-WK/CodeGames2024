@@ -31,10 +31,14 @@ function addRow() {
 	}
 }
 
-function deleteRow(button) {
-	var row = button.parentNode;
-	var container = row.parentNode;
-	container.removeChild(row);
+function deleteRow(btn) {
+    var row = btn;
+    while (row && row.className !== "row") {
+        row = row.parentNode;
+    }
+    if (row) {
+        row.parentNode.removeChild(row);
+    }
 }
 
 function parseMermaidLanguage() {

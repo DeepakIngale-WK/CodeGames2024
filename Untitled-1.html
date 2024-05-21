@@ -1,0 +1,42 @@
+<html>
+
+  <body>
+    <div id="mermaid-form">
+      <div>
+        <label for="diagram-type">Diagram Type:</label>
+        <select id="diagram-type">
+          <option value="flowchart">Flowchart</option>
+          <option value="sequence">Sequence Diagram</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="diagram-content">Diagram Content:</label>
+        <textarea id="diagram-content"></textarea>
+
+      </div>
+      <div>
+        <button id="generate-diagram">Generate Diagram</button>
+      </div>
+    </div>
+
+    <div id="mermaid-output"></div>
+
+    <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+
+    document.getElementById('generate-diagram').addEventListener('click', function () {
+      var diagramType = document.getElementById('diagram-type').value;
+      var diagramContent = document.getElementById('diagram-content').value;
+
+      var mermaidCode = diagramType + '\n' + diagramContent;
+
+      mermaid.mermaidAPI.render('mermaid-output', mermaidCode, function (svgCode) {
+        document.getElementById('mermaid-output').innerHTML = svgCode;
+      });
+    });
+  </script>
+  </body>
+
+</html>

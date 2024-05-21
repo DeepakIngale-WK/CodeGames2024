@@ -10,13 +10,29 @@
 	<div>
 		<select class="dropdown" id="chartSelection" onchange="showContainer()">
 			<option>Select</option>
-			<option>SequenceDiagram</option>
+			<option>Flowchart</option>
 		</select>
 	</div>
 
 	<div id="container" style="display: none;">
 	</div>
 
+	<br>
+	<br>
+	<br>
+
+	<div>
+		<button type="button" id="render" onclick="parseMermaidLanguage()">Render</button>
+	</div>
+
+	<br>
+	<br>
+	<br>
+
+	<div id="preview">
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="Parser.js"></script>
 </body>
 </html>

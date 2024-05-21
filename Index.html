@@ -2,60 +2,80 @@
 <html>
 	<head>
 		<title>Generate Diagrams</title>
+		<link rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 		<script
 			src="https://cdn.rawgit.com/knsv/mermaid/0.5.8/dist/mermaidAPI.js"></script>
-		<style>
-			* {
-				color: #000;
-				background: #fff;
-			}
-		</style>
+		<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+
 	</head>
 	<body>
 		<div class="container">
+			<h1 class="col-md-12 ">Generate Diagrams</h1>
+			<div class="row">
+				<div class="col-md-12 m-1 p-1">
+					<textarea id="input" cols="70" rows="10"
+						placeholder="Enter your diagram text"></textarea>
+				</div>
+				<div class="col-md-12 m-1 p-1">
+					<button type="button" id="render" onclick="GenerateChart()"
+						class="btn-primary">Generate diagram</button>
+				</div>
 
-			<div>
-				<textarea name id="input" cols="30" rows="10">
-sequenceDiagram
-A->> B: Query
-B->> C: Forward query
-Note right of C: Thinking...
-C->> B: Response
-B->> A: Forward response
-		</textarea>
 			</div>
-			<div>
-				Your code (for debugging):
-				<pre id="preview"></pre>
+			<hr />
+			<div class="row">
+				<div class="col-md-12 col-lg-12">
+					<iframe id="myIframe" width="100%" height="500" style="border:1px solid grey;">
+
+					</iframe>
+				</div>
 			</div>
-			<div>
-				<button type="button" id="render">Render</button>
-			</div>
-			<div>Graph:</div>
-			<div id="outputContainer">
-				<div id="output"></div>
-			</div>
+
 		</div>
 
-		<script type="module">
-			let counter = 1;
-			mermaidAPI.initialize({ startOnLoad: false });
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-			var input = document.getElementById("input");
-			var preview = document.getElementById("preview");
-			var output = document.getElementById("output");
-			var renderBtn = document.getElementById("render");
-			var outputContainer = document.getElementById("outputContainer");
+		<script type>
 
-			render.onclick = function () {
-				let newId = 'graph' + counter++;
-				
-				preview.innerHTML = input.value;
+		function GenerateChart() {
+			var selectedInput = $('#input').val();
 
-				const svg = mermaidAPI.render(newId, input.value);
+			if (selectedInput == null || selectedInput == "") {
+				alert("Please enter the diagram text");
+				return;
+			}
 
-				output.innerHTML = svg;
-			};
+			// Create a new blob with the HTML content of the new_mermaid element
+			const blob = new Blob([GetHtmlContent(selectedInput)], { type: 'text/html' });
+
+			// Create a URL for the blob
+			const url = URL.createObjectURL(blob);
+			// Get the iframe element
+			// const iframe = document.querySelector("iframe");
+			const iframe = $('#myIframe')[0];
+
+			// Set the source of the iframe to the URL of the blob
+			iframe.src = url;
+		}
+
+		function GetHtmlContent(selectedInput) {
+			
+			let chartHtml = '<html><body>\n';
+			chartHtml += '<pre class=\'mermaid\'>';
+			chartHtml += selectedInput;
+			chartHtml += '</pre>';
+			chartHtml += '<script type=\'module\'> import mermaid from \'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs\';'
+			chartHtml += 'mermaid.initialize({startOnLoad: true })<\/script><\/body><\/html>';
+			
+			console.log(chartHtml);
+
+			return chartHtml;
+		}
 		</script>
 	</body>
 </html>

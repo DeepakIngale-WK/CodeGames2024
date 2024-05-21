@@ -1,61 +1,71 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Generate Diagrams</title>
-		<script
-			src="https://cdn.rawgit.com/knsv/mermaid/0.5.8/dist/mermaidAPI.js"></script>
-		<style>
-			* {
-				color: #000;
-				background: #fff;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-
-			<div>
-				<textarea name id="input" cols="30" rows="10">
-sequenceDiagram
-A->> B: Query
-B->> C: Forward query
-Note right of C: Thinking...
-C->> B: Response
-B->> A: Forward response
-		</textarea>
-			</div>
-			<div>
-				Your code (for debugging):
-				<pre id="preview"></pre>
-			</div>
-			<div>
-				<button type="button" id="render">Render</button>
-			</div>
-			<div>Graph:</div>
-			<div id="outputContainer">
-				<div id="output"></div>
-			</div>
-		</div>
-
-		<script type="module">
-			let counter = 1;
-			mermaidAPI.initialize({ startOnLoad: false });
-
-			var input = document.getElementById("input");
-			var preview = document.getElementById("preview");
-			var output = document.getElementById("output");
-			var renderBtn = document.getElementById("render");
-			var outputContainer = document.getElementById("outputContainer");
-
-			render.onclick = function () {
-				let newId = 'graph' + counter++;
-				
-				preview.innerHTML = input.value;
-
-				const svg = mermaidAPI.render(newId, input.value);
-
-				output.innerHTML = svg;
-			};
-		</script>
-	</body>
+ 
+<head>
+    <title>Dropdown Menu</title>
+</head>
+ 
+<body>
+    <div>
+        <button onclick="test()">Test</button>
+    </div>
+    <iframe width="600" height="600">
+ 
+    </iframe>
+    <script>
+ 
+        let chartHtml = '<html><body>\n';
+        chartHtml += "#PLACEHOLDER#"
+        chartHtml += '<script type=\'module\'> import mermaid from \'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs\';'
+        chartHtml += 'mermaid.initialize({startOnLoad: true })<\/script><\/body><\/html>';
+ 
+        let flowChartTag = '<pre class=\'mermaid\'>flowchart TD \n';
+        flowChartTag += 'Start --> Stop';
+        flowChartTag += '\n</pre>'
+        var isFlowChart = true;
+        let sequenceTag = '<pre class=\'mermaid\'>sequenceDiagram \n';
+        sequenceTag += 'participant Alice';
+        sequenceTag += '\nparticipant Bob';
+        sequenceTag += '\nAlice->>Bob: Hi Bob';
+        sequenceTag += '\nBob->>Alice: Hi Alice';
+        sequenceTag += '\n</pre>'
+        function GenerateChart() {
+ 
+ 
+            // Create a new blob with the HTML content of the new_mermaid element
+            const blob = new Blob([GetHtmlContent()], { type: 'text/html' });
+ 
+            // Create a URL for the blob
+            const url = URL.createObjectURL(blob);
+            // Get the iframe element
+            const iframe = document.querySelector("iframe");
+ 
+            // Set the source of the iframe to the URL of the blob
+            iframe.src = url;
+        }
+ 
+        //   document.body.addEventListener("click", GenerateChart);
+ 
+ 
+        function GetHtmlContent() {
+            var selChartVal = flowChartTag;
+            if (!isFlowChart) {
+                selChartVal = sequenceTag;
+            }
+            let chartHtml = '<html><body>\n';
+            chartHtml += selChartVal;
+            chartHtml += '<script type=\'module\'> import mermaid from \'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs\';'
+            chartHtml += 'mermaid.initialize({startOnLoad: true })<\/script><\/body><\/html>';
+            console.log(chartHtml);
+            return chartHtml;
+        }
+ 
+        function test() {
+            isFlowChart = !isFlowChart;
+            GenerateChart();
+        }
+    </script>
+ 
+</body>
+ 
 </html>

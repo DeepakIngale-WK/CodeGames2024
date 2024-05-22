@@ -3,16 +3,14 @@ const flowchartLr = `flowchart LR`;
 const connectString = `-->`;
 let hashSet = new Set();
 let sequenceDiagramHttpTemplate = $('#template').html();
-let currentSelection = "";
+let currentFlowChartSelection = flowchartTd;
 
 function showContainer() {
 	var chartSelection = document.getElementById("chartSelection");
 	var container = document.getElementById("container");
 	container.innerHTML = "";
-	if (chartSelection.value === "flowchartTd" 
-		|| chartSelection.value === "flowchartLr") {
+	if (chartSelection.value === "flowchart") {
 		container.style.display = "block";
-		currentSelection = chartSelection.value;
 		addRow();
 	} else {
 		container.style.display = "none";
@@ -30,27 +28,36 @@ function addRow() {
 	if (container.childElementCount > 1) {
 		var dropdown = newRow.querySelector(".nodeDropdown");
 		var text = newRow.querySelector(".nodeText");
-		
+
 		dropdown.value = newRow.previousElementSibling.querySelector(".linkNodedropdown").value;
 		text.value = newRow.previousElementSibling.querySelector(".linkNodeText").value;
 	}
 }
 
 function deleteRow(btn) {
-    var row = btn;
-    while (row && row.className !== "row") {
-        row = row.parentNode;
-    }
-    if (row) {
-        row.parentNode.removeChild(row);
-    }
+	var row = btn;
+	while (row && row.className !== "row") {
+		row = row.parentNode;
+	}
+	if (row) {
+		row.parentNode.removeChild(row);
+	}
+}
+
+window.handleOptionChange = function (option) {
+	if (option == 'td') {
+		currentFlowChartSelection = flowchartTd;
+	}
+	else if (option == 'lr') {
+		currentFlowChartSelection = flowchartLr;
+	}
 }
 
 function parseMermaidLanguage() {
 	hashSet = new Set();
 	var $container = $("#container");
 	var $rows = $container.find(".row");
-	var mermaidLanguage = currentSelection === "flowchartTd" ? `${flowchartTd}\n` : `${flowchartLr}\n`;
+	var mermaidLanguage = `${currentFlowChartSelection}\n`;
 
 	$rows.each(function () {
 		var $row = $(this);

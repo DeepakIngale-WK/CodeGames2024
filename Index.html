@@ -2,77 +2,97 @@
 <html>
 
 <head>
-	<title>Flow Gen</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-</head>
+		<title>Flow Gen</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+			rel="stylesheet">
+		<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+			rel="stylesheet">
+		<style>
+				#floGenHeader {
+					display: flex; 
+					justify-content: center; 
+					align-items: center;
+					background: linear-gradient(to bottom, #00ccff 0%, #3333cc 100%);
+				}
+			</style>
+	</head>
+	<body>
 
-<body>
-	<div class="container">
-		<h1 class="col-md-12 col-lg-12 p-3 m-3">Flow Gen</h1>
+		<div id="floGenHeader" class="mb-3">
+			<header
+				class="d-flex flex-wrap justify-content-center py-3 mb-2">
+				<a
+					class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+					<img class="rounded float-start" style="height: 100px;" src="FlowGen.png"
+						alt="Flow Gen Logo">
+					<h1 class="header" style="color: whitesmoke; font-family: math; font-style: italic;">Flow Gen</h1>
+				</a>
+			</header>
+		</div>
+		<div class="container">
+			<div class="row pb-1 mb-1" id="template" style="display: none;">
 
-		<div class="row pb-1 mb-1" id="template" style="display: none;">
+				<div class="col-md-4 col-lg-2 pb-1 mb-1">
+					<select class="nodeDropdown form-select">
+						<option>Start/End</option>
+						<option>Input/Output</option>
+						<option>Process</option>
+						<option>Decision</option>
+					</select>
+				</div>
 
-			<div class="col-md-4 col-lg-2 pb-1 mb-1">
-				<select class="nodeDropdown form-select">
-					<option>Start/End</option>
-					<option>Input/Output</option>
-					<option>Process</option>
-					<option>Decision</option>
-				</select>
-			</div>
-
-			<div class="col-md-6 col-lg-4">
-				<div class="row">
-					<div class="col-md-6 col-lg-6 pb-1 mb-1">
+				<div class="col-md-6 col-lg-4">
+					<div class="row">
+						<div class="col-md-6 col-lg-6 pb-1 mb-1">
 						<input type="text" class=" form-control nodeText" placeholder="Node description">
-					</div>
-					<div class="col-md-6 col-lg-6 pb-1 mb-1">
+						</div>
+						<div class="col-md-6 col-lg-6 pb-1 mb-1">
 						<input type="text" class="form-control arrowText" placeholder="Arrow Overhead">
+						</div>
 					</div>
+				</div>
+
+				<div class="col-md-4 col-lg-2 pb-1 mb-1">
+					<select class="linkNodedropdown form-select">
+						<option>Start/End</option>
+						<option>Input/Output</option>
+						<option>Process</option>
+						<option>Decision</option>
+					</select>
+				</div>
+
+				<div class="col-md-2 col-lg-2 pb-1 mb-1">
+				<input type="text" class="form-control linkNodeText" placeholder="Node description">
+				</div>
+
+				<div class="col-md-2 col-lg-2 pb-1 mb-1">
+					<button class="btn btn-primary button" onclick="addRow()">+</button>
+					<button class="btn btn-primary button" onclick="deleteRow(this)">-</button>
 				</div>
 			</div>
 
-			<div class="col-md-4 col-lg-2 pb-1 mb-1">
-				<select class="linkNodedropdown form-select">
-					<option>Start/End</option>
-					<option>Input/Output</option>
-					<option>Process</option>
-					<option>Decision</option>
-				</select>
-			</div>
-
-			<div class="col-md-2 col-lg-2 pb-1 mb-1">
-				<input type="text" class="form-control linkNodeText" placeholder="Node description">
-			</div>
-
-			<div class="col-md-2 col-lg-2 pb-1 mb-1">
-				<button class="btn btn-primary button" onclick="addRow()">+</button>
-				<button class="btn btn-primary button" onclick="deleteRow(this)">-</button>
-			</div>
-		</div>
-
-		<div class="row pb-1 mb-1">
-			<div class="col-md-6 col-lg-4 pb-1 mb-1">
-				<select class="form-select" id="chartSelection" onchange="showContainer()">
-					<option value>Select Diagram type</option>
+			<div class="row pb-1 mb-1">
+				<div class="col-md-6 col-lg-4 pb-1 mb-1">
+					<select class="form-select" id="chartSelection" onchange="showContainer()">
+						<option value>Select Diagram type</option>
 					<option value="flowchart">Flowchart</option>
-					<option value="sequenceDiagram">Sequence Diagram</option>
-				</select>
-			</div>
+						<option value="sequenceDiagram">Sequence Diagram</option>
+					</select>
+				</div>
 			<div class="col-md-6 col-lg-4 pb-1 mb-1">
 				<input type="text" placeholder="title" class="chartTitle form-control"/>
 			</div>
 		</div>
 
-		<div class="row pb-1 mb-1">
-			<div class="col-md-12 col-lg-12 pb-1 mb-1">
-				<div id="container">
+			<div class="row pb-1 mb-1">
+				<div class="col-md-12 col-lg-12 pb-1 mb-1">
+					<div id="container">
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="pb-2 mb-2">
+			<div class="pb-2 mb-2">
 			<button type="button" class="btn btn-primary" id="render" onclick="parseMermaidLanguage()">Generate
 				diagram</button>
 
@@ -88,42 +108,46 @@
 			</div>
 		</div>
 
-		<div class="row" style="display: none;">
-			<div class="col-md-12 m-1 p-1">
+			<div class="row" style="display: none;">
+				<div class="col-md-12 m-1 p-1">
 				<textarea id="input" cols="70" rows="10" placeholder="Enter your diagram text"></textarea>
-			</div>
-			<div class="col-md-12 m-1 p-1">
+				</div>
+				<div class="col-md-12 m-1 p-1">
 				<button type="button" id="render" onclick="GenerateChart('')" class="btn btn-primary">Generate
 					diagram</button>
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 col-lg-12">
-				<iframe id="myIframe" width="100%" height="500" style="border:1px solid grey;">
+			<div class="row">
+				<div class="col-md-12 col-lg-12">
+					<iframe id="myIframe" width="100%" height="430"
+						style="border:1px solid grey; display: none;">
 
-				</iframe>
+					</iframe>
+				</div>
 			</div>
+
 		</div>
 
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="Parser.js"></script>
+		<script src="Parser.js"></script>
 
-	<script>
+		<script>
 		$(document).ready(function () {
-			$('#template').hide();
-		});
+				$('#template').hide();
+			});
 
 		function GenerateChart(input) {
+
 			var selectedInput = input;//$('#input').val();
 
 			if (selectedInput == null || selectedInput == "") {
 				alert("Please enter the diagram text");
 				return;
 			}
+
+			$('#myIframe').show();
 
 			// Create a new blob with the HTML content of the new_mermaid element
 			const blob = new Blob([GetHtmlContent(selectedInput)], { type: 'text/html' });
@@ -148,7 +172,7 @@
             });
             function saveMermaidAsImage() {
                 var node = document.querySelector('.mermaidContainer'); // Select the Mermaid diagram
- 
+			
                 domtoimage.toPng(node)
                     .then(function (dataUrl) {
                         var link = document.createElement('a');
@@ -173,7 +197,7 @@
 
 			return chartHtml;
 		}
-	</script>
+		</script>
 </body>
 
 </html>

@@ -13,18 +13,22 @@ function showContainer() {
 		case "flowchart":
 			showFlowChartFields();
 			$("#myIframe").hide();
+			$('#actionDiv').hide();
 			addRow();
+			$('#actionDiv').prop('class', 'col-md-6');
 			break;
 		case "sequenceDiagram":
 			hideFlowChartFields();
 			$("#myIframe").show();
 			GenerateChart(getDefaultSequenceDiagramTag());
+			$('#actionDiv').prop('class', 'col-md-12');
 			break;
 		default:
 			$(".flowchartDirection").hide();
 			$("#myIframe").hide();
 			$("#dvButtons").hide();
 			$("#txtTitle").hide();
+			$('#actionDiv').hide();
 			break;
 	}
 }
@@ -98,9 +102,7 @@ function parseMermaidLanguage() {
 		}
 	});
 
-	// var $preview = $("#input");
-	// $preview.html(mermaidLanguage);
-	GenerateChart(mermaidLanguage);
+	return mermaidLanguage;
 }
 
 function getDropDownTemplate(value, description) {

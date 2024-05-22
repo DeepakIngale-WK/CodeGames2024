@@ -1,6 +1,6 @@
-const hashSet = new Set();
 const flowchart = `flowchart TD`;
 const connectString = `-->`;
+let hashSet = new Set();
 let sequenceDiagramHttpTemplate = $('#template').html();
 
 function showContainer() {
@@ -21,15 +21,28 @@ function addRow() {
 	newRow.className = "row";
 	newRow.innerHTML = sequenceDiagramHttpTemplate;
 	container.appendChild(newRow);
+
+	if (container.childElementCount > 1) {
+		var dropdown = newRow.querySelector(".nodeDropdown");
+		var text = newRow.querySelector(".nodeText");
+		
+		dropdown.value = newRow.previousElementSibling.querySelector(".linkNodedropdown").value;
+		text.value = newRow.previousElementSibling.querySelector(".linkNodeText").value;
+	}
 }
 
-function deleteRow(button) {
-	var row = button.parentNode;
-	var container = row.parentNode;
-	container.removeChild(row);
+function deleteRow(btn) {
+    var row = btn;
+    while (row && row.className !== "row") {
+        row = row.parentNode;
+    }
+    if (row) {
+        row.parentNode.removeChild(row);
+    }
 }
 
 function parseMermaidLanguage() {
+	hashSet = new Set();
 	var $container = $("#container");
 	var $rows = $container.find(".row");
 	var mermaidLanguage = `${flowchart}\n`;

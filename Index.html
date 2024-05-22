@@ -7,11 +7,28 @@
 			rel="stylesheet">
 		<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
 			rel="stylesheet">
+		<style>
+				#floGenHeader {
+					display: flex; 
+					justify-content: center; 
+					align-items: center;
+					background: linear-gradient(to bottom, #00ccff 0%, #3333cc 100%);
+				}
+			</style>
 	</head>
 	<body>
+		<div id="floGenHeader" class="mb-3">
+			<header
+				class="d-flex flex-wrap justify-content-center py-3 mb-2">
+				<a
+					class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+					<img class="rounded float-start" style="height: 100px;" src="FlowGen.png"
+						alt="Flow Gen Logo">
+					<h1 class="header" style="color: whitesmoke; font-family: math; font-style: italic;">Flow Gen</h1>
+				</a>
+			</header>
+		</div>
 		<div class="container">
-			<h1 class="col-md-12 col-lg-12 p-3 m-3">Flow Gen</h1>
-
 			<div class="row pb-1 mb-1" id="template" style="display: none;">
 
 				<div class="col-md-4 col-lg-2 pb-1 mb-1">
@@ -89,9 +106,8 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 col-lg-12">
-					<iframe id="myIframe" width="100%" height="500"
-						style="border:1px solid grey;">
-
+					<iframe id="myIframe" width="100%" height="430"
+						style="border:1px solid grey; display: none;">
 					</iframe>
 				</div>
 			</div>
@@ -111,12 +127,15 @@
 			});
 			
 		function GenerateChart(input) {
+
 			var selectedInput = input;//$('#input').val();
 
 			if (selectedInput == null || selectedInput == "") {
 				alert("Please enter the diagram text");
 				return;
 			}
+
+			$('#myIframe').show();
 
 			// Create a new blob with the HTML content of the new_mermaid element
 			const blob = new Blob([GetHtmlContent(selectedInput)], { type: 'text/html' });

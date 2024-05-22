@@ -12,13 +12,20 @@ function showContainer() {
 	switch (chartSelection.value) {
 		case "flowchart":
 			showFlowChartFields();
+			$("#myIframe").hide();
 			addRow();
 			break;
 		case "sequenceDiagram":
 			hideFlowChartFields();
+			$("#myIframe").show();
 			GenerateChart(getDefaultSequenceDiagramTag());
+			break;
 		default:
-			hideFlowChartFields();
+			$(".flowchartDirection").hide();
+			$("#myIframe").hide();
+			$("#dvButtons").hide();
+			$("#txtTitle").hide();
+			break;
 	}
 }
 
@@ -71,6 +78,11 @@ function parseMermaidLanguage() {
 		var $nodeSelection4 = $row.find(".linkNodedropdown").val();
 		var $nodeSelection5 = $row.find(".linkNodeText").val();
 
+		if($nodeSelection2 === "" || $nodeSelection5 === ""){
+			alert("Please enter node description");
+			return false;
+		};
+
 		$nodeTemplate = getDropDownTemplate($nodeSelection, $nodeSelection2);
 		$linkNodeTemplate = getDropDownTemplate($nodeSelection4, $nodeSelection5);
 
@@ -116,15 +128,15 @@ function getDropDownTemplate(value, description) {
 }
 
 function hideFlowChartFields() {
-	document.getElementById("dvButtons").style.display = "none";
-	document.getElementById("txtTitle").style.display = "none";
+	$("#dvButtons").hide();
+	$("#txtTitle").hide();
 	$(".flowchartDirection").hide();
 	container.innerHTML = "";
 }
 
 function showFlowChartFields() {
-	document.getElementById("dvButtons").style.display = "block";
-	document.getElementById("txtTitle").style.display = "block";
+	$("#dvButtons").show();
+	$("#txtTitle").show();
 	$(".flowchartDirection").show();
 }
 

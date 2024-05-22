@@ -80,7 +80,7 @@
 					</select>
 				</div>
 				<div class="col-md-6 col-lg-4 pb-1 mb-1">
-					<input type="text" placeholder="title" class="chartTitle form-control" />
+					<input type="text" id="txtTitle" placeholder="Title" class="chartTitle form-control" />
 				</div>
 			</div>
 
@@ -91,7 +91,7 @@
 				</div>
 			</div>
 
-			<div class="pb-2 mb-2">
+			<div id="dvButtons" class="pb-2 mb-2">
 				<button type="button" class="btn btn-primary" id="render"
 					onclick="parseMermaidLanguage()">Generate
 					diagram</button>
@@ -176,6 +176,8 @@
 		function GetHtmlContent(selectedInput) {
 			let title = $(".chartTitle").val();
 			title = title.length > 0 ? title: "Chart";
+			let chartSelection = document.getElementById("chartSelection").value;
+			title = chartSelection === "sequenceDiagram" ? "Online Shopping Sequence Diagram" : title;
 			let SaveCode = `$(document).ready(function () {
                 $("#btnSave").click(function () {
                     saveMermaidAsImage();
@@ -204,7 +206,7 @@
 			chartHtml += '<script type=\'module\'> import mermaid from \'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs\';'
 			chartHtml += 'mermaid.initialize({startOnLoad: true }) \n' + SaveCode + '<\/script><\/body><\/html>';
 
-			console.log(chartHtml);
+			//console.log(chartHtml);
 
 			return chartHtml;
 		}

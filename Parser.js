@@ -9,14 +9,16 @@ function showContainer() {
 	var chartSelection = document.getElementById("chartSelection");
 	var container = document.getElementById("container");
 	container.innerHTML = "";
-	if (chartSelection.value === "flowchart") {
-		container.style.display = "block";
-		$(".flowchartDirection").show();
-		addRow();
-	} else {
-		container.style.display = "none";
-		container.innerHTML = "";
-		$(".flowchartDirection").hide();
+	switch (chartSelection.value) {
+		case "flowchart":
+			showFlowChartFields();
+			addRow();
+			break;
+		case "sequenceDiagram":
+			hideFlowChartFields();
+			GenerateChart(getDefaultSequenceDiagramTag());
+		default:
+			hideFlowChartFields();
 	}
 }
 
@@ -37,7 +39,6 @@ function addRow() {
 }
 
 function deleteRow(row) {
-	
 	while (row && row.className !== "row") {
 		row = row.parentNode;
 	}
@@ -70,8 +71,6 @@ function parseMermaidLanguage() {
 		var $nodeSelection4 = $row.find(".linkNodedropdown").val();
 		var $nodeSelection5 = $row.find(".linkNodeText").val();
 
-
-
 		$nodeTemplate = getDropDownTemplate($nodeSelection, $nodeSelection2);
 		$linkNodeTemplate = getDropDownTemplate($nodeSelection4, $nodeSelection5);
 
@@ -85,7 +84,6 @@ function parseMermaidLanguage() {
 			`;
 			mermaidLanguage += `\n`;
 		}
-
 	});
 
 	// var $preview = $("#input");
@@ -115,4 +113,47 @@ function getDropDownTemplate(value, description) {
 				return `${key}{${description}}`;
 		}
 	}
+}
+
+function hideFlowChartFields() {
+	document.getElementById("dvButtons").style.display = "none";
+	document.getElementById("txtTitle").style.display = "none";
+	$(".flowchartDirection").hide();
+	container.innerHTML = "";
+}
+
+function showFlowChartFields() {
+	document.getElementById("dvButtons").style.display = "block";
+	document.getElementById("txtTitle").style.display = "block";
+	$(".flowchartDirection").show();
+}
+
+function getDefaultSequenceDiagramTag() {
+	return `
+		sequenceDiagram
+		participant C as Customer
+		participant W as Website
+		participant S as Server
+		participant D as Database
+	 
+		C->>W: Browse items
+		W->>S: Request item data
+		S->>D: Query item data
+		D-->>S: Return item data
+		S-->>W: Return item data
+		W-->>C: Display items
+	 
+		C->>W: Add item to cart
+		W->>S: Update cart
+		S->>D: Update cart
+		D-->>S: Confirm cart update
+		S-->>W: Confirm cart update
+		W-->>C: Display updated cart
+	 
+		C->>W: Checkout
+		W->>S: Request payment process
+		S->>D: Process payment
+		D-->>S: Confirm payment
+		S-->>W: Confirm payment
+		W-->>C: Display receipt`;
 }

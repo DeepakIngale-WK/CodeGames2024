@@ -1,132 +1,181 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<title>Flow Gen</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-</head>
+	<head>
+		<title>Flow Gen</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+			rel="stylesheet">
+		<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+			rel="stylesheet">
+	</head>
 
-<body>
+	<body>
+		<div style="position: relative; min-height: 100vh;">
+			<div id="floGenHeader" class="mb-3 px-3" style="background: #199ee7;">
+				<header class="d-flex flex-wrap justify-content-center py-3 mb-5">
+					<a
+						class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+						<img class="rounded float-start px-3" style="height: 60px;"
+							src="FlowGen1.png" alt="Flow Gen Logo">
 
-	<div id="floGenHeader" class="mb-3 px-3" style="background: #199ee7;">
-		<header class="d-flex flex-wrap justify-content-center py-3 mb-5">
-			<a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-				<img class="rounded float-start px-3" style="height: 60px;" src="FlowGen1.png" alt="Flow Gen Logo">
-
-				<h1 class="header" style="color: whitesmoke; font-family: math; font-style: italic;">Flow
-					Gen</h1>
-			</a>
-		</header>
-	</div>
-	<div class="container">
-		<div class="row pb-1 mb-1" id="template" style="display: none;">
-
-			<div class="col-md-4 col-lg-2 pb-1 mb-1">
-				<select class="nodeDropdown form-select">
-					<option>Start/End</option>
-					<option>Input/Output</option>
-					<option>Process</option>
-					<option>Decision</option>
-				</select>
+						<h1 class="header"
+							style="color: whitesmoke; font-family: math; font-style: italic;">Flow
+							Gen</h1>
+					</a>
+				</header>
 			</div>
+			<div class="container">
+				<div class="row pb-1 mb-1" id="template" style="display: none;">
 
-			<div class="col-md-6 col-lg-4">
+					<div class="col-md-4 col-lg-2 pb-1 mb-1">
+						<select class="nodeDropdown form-select">
+							<option>Start/End</option>
+							<option>Input/Output</option>
+							<option>Process</option>
+							<option>Decision</option>
+						</select>
+					</div>
+
+					<div class="col-md-6 col-lg-4">
+						<div class="row">
+							<div class="col-md-6 col-lg-6 pb-1 mb-1">
+								<input type="text" class=" form-control nodeText"
+									placeholder="Node description">
+							</div>
+							<div class="col-md-6 col-lg-6 pb-1 mb-1">
+								<input type="text" class="form-control arrowText"
+									placeholder="Arrow Overhead">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 col-lg-2 pb-1 mb-1">
+						<select class="linkNodedropdown form-select">
+							<option>Start/End</option>
+							<option>Input/Output</option>
+							<option>Process</option>
+							<option>Decision</option>
+						</select>
+					</div>
+
+					<div class="col-md-2 col-lg-2 pb-1 mb-1">
+						<input type="text" class="form-control linkNodeText"
+							placeholder="Node description">
+					</div>
+
+					<div class="col-md-2 col-lg-2 pb-1 mb-1">
+						<button class="btn btn-primary button" onclick="addRow()">+</button>
+						<button class="btn btn-primary button"
+							onclick="deleteRow(this)">-</button>
+					</div>
+				</div>
+
+				<div class="row pb-1 mb-1">
+					<div class="col-md-6 col-lg-4 pb-1 mb-1">
+						<select class="form-select" id="chartSelection"
+							onchange="showContainer()">
+							<option value>Select Diagram type</option>
+							<option value="flowchart">Flowchart</option>
+							<option value="sequenceDiagram">Sequence Diagram</option>
+						</select>
+					</div>
+					<div class="col-md-6 col-lg-4 pb-1 mb-1">
+						<input type="text" id="txtTitle" placeholder="Title"
+							class="chartTitle form-control" />
+					</div>
+				</div>
+
+				<div class="row pb-1 mb-1">
+					<div class="col-md-12 col-lg-12 pb-1 mb-1">
+						<div id="container">
+						</div>
+					</div>
+				</div>
+
+				<div id class="pb-2 mb-2 row">
+					<div class="col-md-6" id="dvButtons">
+
+						<button type="button" class="btn btn-primary" id="render"
+							onclick="GenerateChart()">Generate
+							diagram</button>
+
+						<div class="btn-group  btn-group-toggle flowchartDirection"
+							data-toggle="buttons">
+							<div>
+								<label class="btn btn-secondary active">
+									<input type="radio" name="options" id="td" autocomplete="off" checked
+										onclick="handleOptionChange('td')"> Top to Bottom
+								</label>
+							</div>
+							<div style="margin-left: 5px;">
+								<label class="btn btn-secondary">
+									<input type="radio" name="options" id="lr" autocomplete="off"
+										onclick="handleOptionChange('lr')">
+									Left to Right
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<div id="actionDiv" class="col-md-6" style="display: none; ">
+						<button type="button" class="btn btn-primary mx-1" id="downloadImage"
+							style="float: right;"
+							onclick="GenerateImage()">Download Image</button>
+						<button type="button" class="btn btn-primary mx-1" id="generateMarkup"
+							style="float: right;"
+							onclick="GenerateMDFile()">Generate Markup File</button>
+					</div>
+
+				</div>
+
+				<div class="row" style="display: none;">
+					<div class="col-md-12 m-1 p-1">
+						<textarea id="input" cols="70" rows="10"
+							placeholder="Enter your diagram text"></textarea>
+					</div>
+					<div class="col-md-12 m-1 p-1">
+						<button type="button" id="render" onclick="GenerateChart('')"
+							class="btn btn-primary">Generate
+							diagram</button>
+					</div>
+				</div>
 				<div class="row">
-					<div class="col-md-6 col-lg-6 pb-1 mb-1">
-						<input type="text" class=" form-control nodeText" placeholder="Node description">
+					<div class="col-md-12 col-lg-12">
+						<iframe id="myIframe" width="100%" height="430"
+							style="border:1px solid grey; display: none;">
+
+						</iframe>
 					</div>
-					<div class="col-md-6 col-lg-6 pb-1 mb-1">
-						<input type="text" class="form-control arrowText" placeholder="Arrow Overhead">
+				</div>
+
+			</div>
+			<br>
+			<br>
+			<br>
+			<div>
+				<footer
+					class="d-flex flex-wrap justify-content-center align-items-center py-3 border-top"
+					style="position: absolute; bottom: 0; width: 100%; background: #199ee7;">
+					<div class="col-md-4 d-flex align-items-center">
+						<span class="mb-3 mb-md-0 text-center" style="color: whitesmoke;">© All
+							rights
+							reserved with
+							<span
+								style="font-family: math; font-style: italic;">HexaCoders</span>.
+							<b>&lt;Code Games /&gt; 2024</b></span>
 					</div>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-lg-2 pb-1 mb-1">
-				<select class="linkNodedropdown form-select">
-					<option>Start/End</option>
-					<option>Input/Output</option>
-					<option>Process</option>
-					<option>Decision</option>
-				</select>
-			</div>
-
-			<div class="col-md-2 col-lg-2 pb-1 mb-1">
-				<input type="text" class="form-control linkNodeText" placeholder="Node description">
-			</div>
-
-			<div class="col-md-2 col-lg-2 pb-1 mb-1">
-				<button class="btn btn-primary button" onclick="addRow()">+</button>
-				<button class="btn btn-primary button" onclick="deleteRow(this)">-</button>
+				</footer>
 			</div>
 		</div>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="Parser.js"></script>
 
-		<div class="row pb-1 mb-1">
-			<div class="col-md-6 col-lg-4 pb-1 mb-1">
-				<select class="form-select" id="chartSelection" onchange="showContainer()">
-					<option value>Select Diagram type</option>
-					<option value="flowchart">Flowchart</option>
-					<option value="sequenceDiagram">Sequence Diagram</option>
-				</select>
-			</div>
-			<div class="col-md-6 col-lg-4 pb-1 mb-1">
-				<input type="text" id="txtTitle" placeholder="Title" class="chartTitle form-control" />
-			</div>
-		</div>
-
-		<div class="row pb-1 mb-1">
-			<div class="col-md-12 col-lg-12 pb-1 mb-1">
-				<div id="container">
-				</div>
-			</div>
-		</div>
-
-		<div id="dvButtons" class="pb-2 mb-2">
-			<button type="button" class="btn btn-primary" id="render" onclick="parseMermaidLanguage()">Generate
-				diagram</button>
-
-			<div class="btn-group  btn-group-toggle flowchartDirection" data-toggle="buttons">
-				<div>
-					<label class="btn btn-secondary active">
-						<input type="radio" name="options" id="td" autocomplete="off" checked
-							onclick="handleOptionChange('td')"> Top to Bottom
-					</label>
-				</div>
-				<div style="margin-left: 5px;">
-					<label class="btn btn-secondary">
-						<input type="radio" name="options" id="lr" autocomplete="off"
-							onclick="handleOptionChange('lr')">
-						Left to Right
-					</label>
-				</div>
-			</div>
-		</div>
-
-		<div class="row" style="display: none;">
-			<div class="col-md-12 m-1 p-1">
-				<textarea id="input" cols="70" rows="10" placeholder="Enter your diagram text"></textarea>
-			</div>
-			<div class="col-md-12 m-1 p-1">
-				<button type="button" id="render" onclick="GenerateChart('')" class="btn btn-primary">Generate
-					diagram</button>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 col-lg-12">
-				<iframe id="myIframe" width="100%" height="430" style="border:1px solid grey; display: none;">
-
-				</iframe>
-			</div>
-		</div>
-
-	</div>
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="Parser.js"></script>
-
-	<script>
+		<script>
 		$(document).ready(function () {
 			$('#template').hide();
 			$(".flowchartDirection").hide();
@@ -136,7 +185,12 @@
 
 		function GenerateChart(input) {
 
-			var selectedInput = input;//$('#input').val();
+			var selectedInput;
+			if (input == null || input == "") {
+				selectedInput = parseMermaidLanguage();
+			} else {
+				selectedInput = input;
+			}
 
 			if (selectedInput == null || selectedInput == "") {
 				alert("Please enter the diagram text");
@@ -156,18 +210,44 @@
 
 			// Set the source of the iframe to the URL of the blob
 			iframe.src = url;
+
+			$('#actionDiv').show();
+
 		}
+
+		function GenerateMDFile() {
+
+			var selectedInput = '```mermaid \n' + parseMermaidLanguage();
+
+			if(	$('#chartSelection').val() === 'sequenceDiagram'){
+
+				selectedInput = '```mermaid \n' + getDefaultSequenceDiagramTag();
+			};
+ 
+             var blob = new Blob([selectedInput], { type: "text/markdown;charset=utf-8" });
+            var link = document.createElement('a');
+            link.download = 'test.md';
+            link.href = URL.createObjectURL(blob);
+            link.click();
+        }
+
+		function GenerateImage()
+        {
+            document.getElementById('myIframe').contentWindow.postMessage('saveAsImage', '*');
+        }
 
 		function GetHtmlContent(selectedInput) {
 			let title = $(".chartTitle").val();
 			title = title.length > 0 ? title : "Chart";
 			let chartSelection = document.getElementById("chartSelection").value;
 			title = chartSelection === "sequenceDiagram" ? "Online Shopping Sequence Diagram" : title;
-			let SaveCode = `$(document).ready(function () {
-                $("#btnSave").click(function () {
+			let SaveCode = `
+			window.addEventListener('message', function(event) {
+                if (event.data === 'saveAsImage') {
                     saveMermaidAsImage();
-                });
-            });
+                }
+            }, false);
+
             function saveMermaidAsImage() {
                 var node = document.querySelector('.mermaidContainer'); // Select the Mermaid diagram
 			
@@ -183,8 +263,10 @@
                     });
             }`;
 
-			let chartHtml = '<html><head><link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"><\/script><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"><\/script></head><body>\n';
-			chartHtml += '<button id="btnSave" class="btn btn-primary" style="float:right; margin:10px;"><i class="bi bi-download"></i><\/button>';
+			let chartHtml = '<html><head>';
+			chartHtml += '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">';
+			chartHtml += '<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"><\/script>';
+			chartHtml += '<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"><\/script></head><body>\n';
 			chartHtml += '<div class="mermaidContainer" style="padding:10px;"><h4 class="text-center">' + title + '</h4><pre class="mermaid text-center">';
 			chartHtml += selectedInput;
 			chartHtml += '</pre></div>';
@@ -196,6 +278,6 @@
 			return chartHtml;
 		}
 	</script>
-</body>
+	</body>
 
 </html>

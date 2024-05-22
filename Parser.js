@@ -2,7 +2,7 @@ const flowchartTd = `flowchart TD`;
 const flowchartLr = `flowchart LR`;
 const connectString = `-->`;
 let hashSet = new Set();
-let sequenceDiagramHttpTemplate = $('#template').html();
+let flowchartHttpTemplate = $('#template').html();
 let currentFlowChartSelection = flowchartTd;
 
 function showContainer() {
@@ -24,7 +24,7 @@ function addRow() {
 	var container = document.getElementById("container");
 	var newRow = document.createElement("div");
 	newRow.className = "row";
-	newRow.innerHTML = sequenceDiagramHttpTemplate;
+	newRow.innerHTML = flowchartHttpTemplate;
 	container.appendChild(newRow);
 
 	if (container.childElementCount > 1) {
@@ -36,8 +36,8 @@ function addRow() {
 	}
 }
 
-function deleteRow(btn) {
-	var row = btn;
+function deleteRow(row) {
+	
 	while (row && row.className !== "row") {
 		row = row.parentNode;
 	}

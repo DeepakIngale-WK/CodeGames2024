@@ -1,13 +1,18 @@
-const flowchart = `flowchart TD`;
+const flowchartTd = `flowchart TD`;
+const flowchartLr = `flowchart LR`;
 const connectString = `-->`;
 let hashSet = new Set();
 let sequenceDiagramHttpTemplate = $('#template').html();
+let currentSelection = "";
 
 function showContainer() {
 	var chartSelection = document.getElementById("chartSelection");
 	var container = document.getElementById("container");
-	if (chartSelection.value === "flowchart") {
+	container.innerHTML = "";
+	if (chartSelection.value === "flowchartTd" 
+		|| chartSelection.value === "flowchartLr") {
 		container.style.display = "block";
+		currentSelection = chartSelection.value;
 		addRow();
 	} else {
 		container.style.display = "none";
@@ -45,7 +50,7 @@ function parseMermaidLanguage() {
 	hashSet = new Set();
 	var $container = $("#container");
 	var $rows = $container.find(".row");
-	var mermaidLanguage = `${flowchart}\n`;
+	var mermaidLanguage = currentSelection === "flowchartTd" ? `${flowchartTd}\n` : `${flowchartLr}\n`;
 
 	$rows.each(function () {
 		var $row = $(this);

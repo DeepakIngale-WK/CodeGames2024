@@ -11,10 +11,12 @@ function showContainer() {
 	container.innerHTML = "";
 	if (chartSelection.value === "flowchart") {
 		container.style.display = "block";
+		$(".flowchartDirection").show();
 		addRow();
 	} else {
 		container.style.display = "none";
 		container.innerHTML = "";
+		$(".flowchartDirection").hide();
 	}
 }
 
